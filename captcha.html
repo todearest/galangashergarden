@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Security Verification</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💚</text></svg>" />
+    <link rel="stylesheet" href="style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,700;1,400&family=Playfair+Display:ital,wght@0,500;0,700;1,500;1,700&display=swap" rel="stylesheet">
+</head>
+<body class="green-theme flex-center">
+
+    <button id="music-btn" class="floating-music-btn">
+        <span class="music-bars" id="music-bars">
+            <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+        </span>
+        <span id="music-text">PLAY</span>
+    </button>
+    <a href="index.html" class="back-link">← Back to Main</a>
+
+    <!-- THE CAPTCHA APP UI -->
+    <div class="captcha-box reveal">
+        <div class="captcha-header">
+            <p>Select all images with</p>
+            <h2>the most handsome boy ever</h2>
+            <p>to prove you are not a robot.</p>
+        </div>
+        
+        <div class="captcha-grid" id="captcha-grid">
+            <div class="cap-item"><img src="asset/1.jpg" onerror="this.src='1.jpg'"></div>
+            <div class="cap-item"><img src="asset/2.jpg" onerror="this.src='2.jpg'"></div>
+            <div class="cap-item"><img src="asset/3.jpg" onerror="this.src='3.jpg'"></div>
+            <div class="cap-item"><img src="asset/4.jpg" onerror="this.src='4.jpg'"></div>
+            <div class="cap-item"><img src="asset/5.jpg" onerror="this.src='5.jpg'"></div>
+            <div class="cap-item"><img src="asset/6.jpg" onerror="this.src='6.jpg'"></div>
+            <div class="cap-item"><img src="asset/7.jpg" onerror="this.src='7.jpg'"></div>
+            <div class="cap-item"><img src="asset/8.jpg" onerror="this.src='8.jpg'"></div>
+            <div class="cap-item"><img src="asset/9.jpg" onerror="this.src='9.jpg'"></div>
+        </div>
+
+        <div class="captcha-footer">
+            <div class="cap-status">✓ reCAPTCHA</div>
+            <button id="cap-verify" class="btn-neon">VERIFY</button>
+        </div>
+    </div>
+
+    <!-- SUCCESS MODAL -->
+    <div class="modal" id="success-modal">
+        <div class="modal-content">
+            <h2 class="pulse-text" style="margin-bottom: 20px;">Access Granted! 💚</h2>
+            <p class="sweet-text" style="font-size: 1rem;">
+                System verified: You are indeed the best boyfriend. <br><br>
+                Thank you for being my rock, my sunshine, and the person I want to annoy for the rest of my life. I am so lucky to call you mine. I appreciate every little thing you do for me, from the sweet texts to the warm hugs. I love you endlessly!
+            </p>
+            <button id="close-modal" class="btn-neon" style="margin-top: 30px;">CLOSE</button>
+        </div>
+    </div>
+
+    <audio id="bg-music" loop>
+        <source src="asset/shape-of-my-heart.mp3" type="audio/mpeg">
+    </audio>
+
+    <script src="main.js"></script>
+</body>
+</html>

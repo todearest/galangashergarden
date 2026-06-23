@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>Our Digital Garden</title>
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💚</text></svg>"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,700;1,400&family=Playfair+Display:ital,wght@0,500;0,700;1,500;1,700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="green-theme flex-center">
+    <button id="music-btn" class="floating-music-btn">
+      <span class="music-bars" id="music-bars">
+        <span class="bar"></span><span class="bar"></span
+        ><span class="bar"></span>
+      </span>
+      <span id="music-text">PLAY</span>
+    </button>
+    <a href="index.html" class="back-link">← Back to Main</a>
+
+    <!-- THE GARDEN APP UI -->
+    <div class="garden-box reveal" id="garden-box">
+      <h2>Our Little Garden</h2>
+      <p class="sweet-text" style="font-size: 0.9rem; margin-bottom: 20px">
+        Every great love needs a little watering.
+      </p>
+
+      <div id="plant-emoji" class="plant-emoji">🌱</div>
+
+      <button id="water-btn" class="btn-neon">WATER IT 💧</button>
+
+      <div id="garden-msg" class="garden-msg">
+        <h3 class="pulse-text" style="color: #ff80ab">It bloomed! 🌸</h3>
+        <p class="sweet-text" style="font-size: 1rem; margin-top: 15px">
+          Just like this little plant, my love for you keeps growing every
+          single day. Thank you for nurturing my heart, being so patient with
+          me, and making my life so incredibly beautiful. I love you, forever.
+          💚
+        </p>
+      </div>
+    </div>
+
+    <audio id="bg-music" loop>
+      <source src="asset/shape-of-my-heart.mp3" type="audio/mpeg" />
+    </audio>
+
+    <script src="main.js"></script>
+  </body>
+</html>

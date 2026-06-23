@@ -1,0 +1,715 @@
+/* ===========================
+   THE GREEN DEVOTION THEME + APP UI
+   =========================== */
+:root {
+  --bg-dark: #0a1c12;
+  --bg-light: #162b1d;
+  --text-main: #e8f5e9;
+  --text-muted: #a5d6a7;
+  --accent: #4caf50;
+  --accent-neon: #69f0ae;
+  --card-bg: #1b3322;
+  --terminal-font: "Share Tech Mono", monospace;
+}
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+  background-color: var(--bg-dark);
+  color: var(--text-main);
+  font-family: "DM Sans", sans-serif;
+}
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  flex-direction: column;
+}
+
+/* --- REUSABLE BUTTONS --- */
+.btn-neon {
+  display: inline-block;
+  padding: 12px 25px;
+  background: rgba(105, 240, 174, 0.1);
+  border: 1px solid var(--accent-neon);
+  color: var(--accent-neon);
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+.btn-neon:hover {
+  background: var(--accent-neon);
+  color: var(--bg-dark);
+  box-shadow: 0 0 15px rgba(105, 240, 174, 0.5);
+}
+.fun-buttons {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.back-link {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-weight: bold;
+  z-index: 1000;
+  background: rgba(10, 28, 18, 0.8);
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+.back-link:hover {
+  color: var(--accent-neon);
+}
+
+/* --- LOVE GATE (PRELOADER) --- */
+#love-gate {
+  position: fixed;
+  inset: 0;
+  background: var(--bg-dark);
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  transition: opacity 1s ease;
+  user-select: none;
+}
+.gate-content {
+  padding: 20px;
+}
+.pulse-text {
+  font-family: "Playfair Display", serif;
+  font-size: 2rem;
+  color: var(--accent-neon);
+  margin-bottom: 10px;
+  animation: pulse 1.5s infinite;
+}
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+}
+.bar-container {
+  width: 100%;
+  max-width: 300px;
+  height: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  margin: 20px auto;
+  overflow: hidden;
+}
+.bar-fill {
+  width: 0%;
+  height: 100%;
+  background: var(--accent-neon);
+  transition: width 0.2s ease;
+}
+#percentage {
+  font-weight: bold;
+  color: var(--text-muted);
+}
+
+/* --- MUSIC CONTROLLER --- */
+.floating-music-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+  background: rgba(22, 43, 29, 0.8);
+  border: 1px solid var(--accent);
+  color: var(--accent-neon);
+  padding: 12px 20px;
+  border-radius: 30px;
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.8rem;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s;
+}
+.floating-music-btn:hover {
+  background: var(--accent-neon);
+  color: var(--bg-dark);
+}
+.music-bars {
+  display: flex;
+  gap: 3px;
+  align-items: flex-end;
+  height: 12px;
+}
+.bar {
+  width: 3px;
+  background-color: currentColor;
+  border-radius: 2px;
+}
+.playing .bar:nth-child(1) {
+  animation: bounce 1s infinite;
+}
+.playing .bar:nth-child(2) {
+  animation: bounce 1.2s infinite 0.2s;
+}
+.playing .bar:nth-child(3) {
+  animation: bounce 0.8s infinite 0.4s;
+}
+@keyframes bounce {
+  0%,
+  100% {
+    height: 4px;
+  }
+  50% {
+    height: 12px;
+  }
+}
+
+/* --- CANVAS & LAYOUT --- */
+.canvas {
+  padding: 5vh 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10vh;
+  max-width: 1200px;
+  margin: 0 auto;
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+.block {
+  width: 100%;
+}
+
+/* --- HERO --- */
+.hero {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  align-items: center;
+  text-align: center;
+  margin-top: 5vh;
+}
+.eyebrow {
+  font-size: 0.8rem;
+  letter-spacing: 0.2em;
+  color: var(--accent);
+  margin-bottom: 10px;
+}
+.title {
+  font-family: "Playfair Display", serif;
+  font-size: clamp(3rem, 10vw, 6rem);
+  line-height: 1.1;
+  color: var(--text-main);
+}
+.title i {
+  color: var(--accent-neon);
+  font-style: italic;
+}
+.hero-gif {
+  width: 100%;
+  max-width: 400px;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+.hero-gif img {
+  width: 100%;
+  display: block;
+  filter: sepia(30%) hue-rotate(70deg) saturate(150%);
+}
+
+/* --- TYPOGRAPHY / TEXT BLOCKS --- */
+.text-block {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+.sweet-text {
+  font-size: clamp(1.2rem, 4vw, 1.8rem);
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+.text-center {
+  text-align: center;
+}
+.big-quote {
+  font-family: "Playfair Display", serif;
+  font-style: italic;
+  font-size: clamp(2rem, 6vw, 3.5rem);
+  color: var(--accent-neon);
+  margin-bottom: 30px;
+}
+
+/* --- MASONRY GRID --- */
+.grid-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 30px;
+}
+.item {
+  width: 100%;
+}
+.img-card {
+  background: var(--card-bg);
+  padding: 15px;
+  border-radius: 15px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+}
+.img-card img {
+  width: 100%;
+  border-radius: 10px;
+  display: block;
+  filter: brightness(0.9) contrast(1.1);
+  transition: filter 0.3s;
+}
+.img-card:hover img {
+  filter: brightness(1.1) contrast(1.2);
+}
+.caption {
+  font-family: "Playfair Display", serif;
+  font-style: italic;
+  text-align: center;
+  margin-top: 15px;
+  color: var(--accent-neon);
+  font-size: 1.2rem;
+}
+.img-raw img {
+  width: 100%;
+  border-radius: 15px;
+  display: block;
+}
+.text-only h3 {
+  font-family: "Playfair Display", serif;
+  font-style: italic;
+  font-size: clamp(2rem, 8vw, 4rem);
+  color: var(--text-main);
+  line-height: 1.2;
+  text-align: center;
+  padding: 20px;
+}
+
+/* --- INTERACTIVE SPOTIFY FEATURE --- */
+.spotify-block {
+  display: flex;
+  justify-content: center;
+}
+.interactive-box {
+  background: var(--bg-light);
+  border: 2px solid var(--accent);
+  border-radius: 20px;
+  padding: 40px 20px;
+  text-align: center;
+  max-width: 500px;
+  width: 100%;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+}
+.box-title {
+  font-family: "Playfair Display", serif;
+  font-size: 2.5rem;
+  color: var(--accent-neon);
+  margin-bottom: 10px;
+}
+.box-desc {
+  color: var(--text-muted);
+  margin-bottom: 30px;
+}
+
+.slider-container {
+  position: relative;
+  width: 100%;
+  height: 70px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 35px;
+  overflow: hidden;
+  border: 1px solid var(--accent);
+}
+.slide-track {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.slide-text {
+  color: var(--accent);
+  font-weight: bold;
+  letter-spacing: 0.1em;
+  font-size: 0.9rem;
+  pointer-events: none;
+}
+.slide-thumb {
+  position: absolute;
+  left: 5px;
+  top: 5px;
+  width: 60px;
+  height: 60px;
+  background: var(--accent-neon);
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--bg-dark);
+  font-size: 1.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.1s;
+  z-index: 20;
+}
+
+.unlocked-content {
+  position: absolute;
+  inset: 0;
+  background: var(--card-bg);
+  z-index: 10;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 10px;
+}
+.unlocked-content.active {
+  opacity: 1;
+  pointer-events: all;
+}
+.spotify-card {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  width: 100%;
+}
+.album-art {
+  width: 50px;
+  height: 50px;
+  border-radius: 5px;
+}
+.song-info {
+  text-align: left;
+  flex: 1;
+}
+.song-info h3 {
+  font-size: 1rem;
+  color: var(--text-main);
+  margin-bottom: 2px;
+}
+.song-info p {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+.play-spotify-btn {
+  background: #1db954;
+  color: white;
+  text-decoration: none;
+  padding: 8px 15px;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+/* --- GALLERY SHOWCASE --- */
+.showcase-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+.showcase-grid img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+  aspect-ratio: 1/1;
+}
+.showcase-grid .gif-large {
+  grid-column: span 2;
+  aspect-ratio: 16/9;
+}
+
+/* --- END BLOCK --- */
+.end-block {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 5vh;
+}
+.end-card {
+  position: relative;
+  max-width: 600px;
+  width: 100%;
+  border-radius: 20px;
+  overflow: hidden;
+}
+.end-card img {
+  width: 100%;
+  display: block;
+  filter: brightness(0.6);
+}
+.end-text {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+}
+.end-text h2 {
+  font-family: "Playfair Display", serif;
+  font-size: clamp(3rem, 8vw, 5rem);
+  color: var(--accent-neon);
+  margin-bottom: 10px;
+}
+.end-text p {
+  font-size: clamp(1rem, 3vw, 1.2rem);
+  max-width: 400px;
+  margin-bottom: 20px;
+}
+.signature {
+  font-family: "Playfair Display", serif;
+  font-style: italic;
+  color: var(--accent);
+}
+
+/* --- CAPTCHA UI APP --- */
+.captcha-box {
+  background: white;
+  color: #333;
+  border-radius: 8px;
+  padding: 20px;
+  max-width: 400px;
+  width: 100%;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+.captcha-header {
+  background: var(--accent);
+  color: white;
+  padding: 20px;
+  margin: -20px -20px 20px -20px;
+  border-radius: 8px 8px 0 0;
+}
+.captcha-header h2 {
+  font-size: 1.5rem;
+  margin: 5px 0;
+}
+.captcha-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 5px;
+  margin-bottom: 20px;
+}
+.cap-item {
+  position: relative;
+  aspect-ratio: 1/1;
+  cursor: pointer;
+  overflow: hidden;
+}
+.cap-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.2s;
+}
+.cap-item.selected img {
+  transform: scale(0.85);
+}
+.cap-item::after {
+  content: "✓";
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: var(--accent);
+  color: white;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.cap-item.selected::after {
+  opacity: 1;
+}
+.captcha-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid #ddd;
+  padding-top: 15px;
+}
+.cap-status {
+  font-family: sans-serif;
+  font-size: 0.9rem;
+  color: #777;
+}
+
+/* MODAL */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 10000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+  padding: 20px;
+}
+.modal.active {
+  opacity: 1;
+  pointer-events: all;
+}
+.modal-content {
+  background: var(--bg-light);
+  padding: 40px;
+  border-radius: 20px;
+  border: 2px solid var(--accent-neon);
+  text-align: center;
+  max-width: 500px;
+  width: 100%;
+}
+
+/* --- GARDEN UI APP --- */
+.garden-box {
+  background: var(--bg-light);
+  padding: 40px;
+  border-radius: 20px;
+  border: 2px solid var(--accent);
+  text-align: center;
+  max-width: 500px;
+  width: 100%;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+  position: relative;
+  overflow: hidden;
+}
+
+.garden-box h2 {
+  color: var(--accent-neon);
+  font-family: "Playfair Display", serif;
+  font-size: 2.2rem;
+}
+
+.plant-emoji {
+  font-size: 6rem;
+  margin: 30px 0;
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  display: inline-block;
+}
+
+/* The bounce effect when watered */
+.plant-emoji.watered {
+  transform: scale(1.2) rotate(5deg);
+}
+
+.garden-msg {
+  display: none;
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+
+.garden-msg.active {
+  display: block;
+  opacity: 1;
+}
+
+/* Floating Bubbles/Water Drops */
+.bubble {
+  position: absolute;
+  background: rgba(105, 240, 174, 0.3);
+  border-radius: 50%;
+  pointer-events: none;
+  animation: float-up 3s linear forwards;
+}
+
+@keyframes float-up {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-150px) scale(1.5);
+    opacity: 0;
+  }
+}
+
+/* --- ANIMATIONS --- */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition:
+    opacity 0.8s ease-out,
+    transform 0.8s ease-out;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* --- DESKTOP TWEAKS --- */
+@media (min-width: 768px) {
+  .grid-layout {
+    grid-template-columns: repeat(3, 1fr);
+    align-items: center;
+  }
+  .mt-offset {
+    margin-top: 100px;
+  }
+  .hero {
+    flex-direction: row;
+    text-align: left;
+    justify-content: space-between;
+    padding: 0 5vw;
+  }
+  .showcase-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+  .showcase-grid .gif-large {
+    grid-column: span 2;
+    grid-row: span 2;
+    aspect-ratio: auto;
+  }
+}
+
+/* Tambahkan transisi agar hilangnya halus */
+.slide-track {
+  transition: opacity 0.4s ease;
+}
+
+/* Class baru untuk menyembunyikan slider setelah terbuka */
+.slider-container.unlocked .slide-track {
+  opacity: 0;
+  pointer-events: none;
+}

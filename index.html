@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>Shape of My Heart</title>
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💚</text></svg>"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,700;1,400&family=Playfair+Display:ital,wght@0,500;0,700;1,500;1,700&family=Share+Tech+Mono&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="green-theme">
+    <!-- INTERACTIVE GATE: LOVE BAR -->
+    <div id="love-gate">
+      <div class="gate-content">
+        <h2 class="pulse-text">Syncing Hearts...</h2>
+        <p>Tap the screen to fill the love bar</p>
+        <div class="bar-container">
+          <div class="bar-fill" id="bar-fill"></div>
+        </div>
+        <p id="percentage">0%</p>
+      </div>
+    </div>
+
+    <!-- MUSIC CONTROLLER -->
+    <button id="music-btn" class="floating-music-btn">
+      <span class="music-bars" id="music-bars">
+        <span class="bar"></span><span class="bar"></span
+        ><span class="bar"></span>
+      </span>
+      <span id="music-text">PLAY</span>
+    </button>
+
+    <main class="canvas" id="main-content">
+      <!-- HEADER -->
+      <header class="hero block reveal">
+        <div class="hero-text-wrap">
+          <p class="eyebrow">TO MY FAVORITE PERSON,</p>
+          <h1 class="title">THANK YOU<br /><i>for being mine.</i></h1>
+        </div>
+        <div class="hero-gif">
+          <img
+            src="https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3ZnVyMW01d2R4MDMyY2ZxMTVha2gxZzdiY3lucTd6bXdhamRqZDdhdCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/Y1Ubog2lxGLpGjxUvj/giphy.gif"
+            alt="Aesthetic GIF"
+          />
+        </div>
+      </header>
+
+      <!-- TEXT SCROLL 1 -->
+      <section class="block text-block reveal">
+        <p class="sweet-text">
+          I know I probably don't say it enough, but I am so incredibly grateful
+          for you. Every single day, you give me a reason to smile. You handle
+          my flaws with grace, you listen to my endless ramblings, and you make
+          this chaotic world feel so peaceful just by being in it.
+        </p>
+      </section>
+
+      <!-- MASONRY 1 -->
+      <section class="block grid-layout">
+        <div class="item img-card reveal">
+          <img src="asset/1.jpg" onerror="this.src = '1.jpg'" alt="Sungchan" />
+        </div>
+        <div class="item img-card reveal mt-offset">
+          <img src="asset/2.jpg" onerror="this.src = '2.jpg'" alt="Sungchan" />
+          <div class="caption">My safe space.</div>
+        </div>
+        <div class="item img-raw reveal">
+          <img
+            src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExdXNpdTJ4b3Q2NmlzYWRza3kwbmVwc3lmNGU1M3d3aWlhb2VvZ3diaiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/apv2vxC3ea3efwT7ZX/giphy.gif"
+            alt="GIF"
+          />
+        </div>
+      </section>
+
+      <!-- INTERACTIVE SPOTIFY FEATURE -->
+      <section class="block spotify-block reveal">
+        <div class="interactive-box">
+          <h2 class="box-title">Our Frequency</h2>
+          <p class="box-desc">
+            Slide to unlock the song that reminds me of you.
+          </p>
+
+          <div class="slider-container" id="slider-container">
+            <div class="unlocked-content" id="unlocked-content">
+              <div class="spotify-card">
+                <img
+                  src="asset/3.jpg"
+                  onerror="this.src = '3.jpg'"
+                  alt="Cover"
+                  class="album-art"
+                />
+                <div class="song-info">
+                  <h3>Risk It All</h3>
+                  <p>For you, always.</p>
+                </div>
+                <a
+                  href="https://open.spotify.com/track/5y2ijHECwFYWqcAHKTZgzD?si=YfofPFkhQvu3GbhTFOzicg"
+                  target="_blank"
+                  class="play-spotify-btn"
+                  >OPEN IN SPOTIFY</a
+                >
+              </div>
+            </div>
+
+            <div class="slide-track" id="slide-track">
+              <div class="slide-thumb" id="slide-thumb">»</div>
+              <span class="slide-text" id="slide-text"
+                >SLIDE RIGHT TO UNLOCK</span
+              >
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TEXT SCROLL 2 -->
+      <section class="block text-block reveal text-center">
+        <h2 class="big-quote">
+          "And If You Want The Moon, I'll Take The Entire Sky"
+        </h2>
+        <p class="sweet-text">
+          If you ever reach for the moon, know that I'll spend every night
+          gathering stars just to light your way there. Loving you has made even
+          the ordinary feel infinite, turning quiet moments into memories I
+          never want to lose. Thank you for being my safe place beneath every
+          sky, my favorite part of every day, and the person who makes this
+          world feel a little more beautiful.
+        </p>
+      </section>
+
+      <!-- MASONRY 2 -->
+      <section class="block grid-layout reverse">
+        <div class="item img-card reveal mt-offset">
+          <img src="asset/4.jpg" onerror="this.src = '4.jpg'" alt="Sungchan" />
+        </div>
+        <div class="item img-raw reveal">
+          <img
+            src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOWppdHN5emI2MGI5OHRzYWpsZmNoaGZtYmg4eTNmZzg2amE2dWxjaCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/PeOnYlW8AmjcQEc2bZ/giphy.gif"
+            alt="GIF"
+          />
+        </div>
+        <div class="item img-card reveal">
+          <img src="asset/5.jpg" onerror="this.src = '5.jpg'" alt="Sungchan" />
+          <div class="caption">The brightest light.</div>
+        </div>
+        <div class="item text-only reveal">
+          <h3>I never knew<br />I could love someone<br />this much.</h3>
+        </div>
+      </section>
+
+      <!-- GALLERY SHOWCASE -->
+      <section class="block showcase-block reveal">
+        <div class="showcase-grid">
+          <img
+            src="asset/6.jpg"
+            onerror="this.src = '6.jpg'"
+            alt="Sungchan"
+            class="reveal"
+          />
+          <img
+            src="asset/7.jpg"
+            onerror="this.src = '7.jpg'"
+            alt="Sungchan"
+            class="reveal"
+          />
+          <img
+            src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExY2lhbnpjNDFzdnB4a2cxMzl3YmE5dTFoNXJ5MjVoMjBtb3ZiNXJnMyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/2uIl31u8T11Gc1r9Ng/giphy.gif"
+            alt="GIF"
+            class="reveal gif-large"
+          />
+          <img
+            src="asset/8.jpg"
+            onerror="this.src = '8.jpg'"
+            alt="Sungchan"
+            class="reveal"
+          />
+          <img
+            src="asset/9.jpg"
+            onerror="this.src = '9.jpg'"
+            alt="Sungchan"
+            class="reveal"
+          />
+        </div>
+      </section>
+
+      <!-- MORE FUN SECTION (SYSTEM / APP UI LINKS) -->
+      <section class="block fun-links-block reveal text-center">
+        <h2 class="box-title" style="margin-bottom: 20px">
+          Explore Our Systems
+        </h2>
+        <p class="sweet-text" style="margin-bottom: 30px; font-size: 1rem">
+          Just a couple of fun little programs I wrote for you.
+        </p>
+        <div class="fun-buttons">
+          <a href="captcha.html" class="btn-neon">Security Check 🔒</a>
+          <a href="garden.html" class="btn-neon">Digital Garden 🌻</a>
+        </div>
+      </section>
+
+      <!-- ENDING -->
+      <section class="block end-block reveal">
+        <div class="end-card">
+          <img
+            src="asset/10.jpg"
+            onerror="this.src = '10.jpg'"
+            alt="Sungchan"
+          />
+          <div class="end-text">
+            <h2>I love you.</h2>
+            <p>
+              More than words can say. More than the distance. More than
+              anything.
+            </p>
+            <p class="signature">- Your Girlfriend</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <audio id="bg-music" loop>
+      <source src="asset/shape-of-my-heart.mp3" type="audio/mpeg" />
+    </audio>
+
+    <script src="main.js"></script>
+  </body>
+</html>
