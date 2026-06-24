@@ -1,5 +1,24 @@
 document.addEventListener("DOMContentLoaded", () => {
-    document.body.style.transition = 'opacity 0.4s ease';
+    // ==========================================
+    // 0. DYNAMICALLY WRAP PAGE CONTENT (To Protect Music)
+    // ==========================================
+    let appContent = document.getElementById('app-content');
+    if (!appContent) {
+        appContent = document.createElement('div');
+        appContent.id = 'app-content';
+        appContent.style.transition = 'opacity 0.4s ease';
+        appContent.style.opacity = '0';
+        
+        // Pindahkan elemen ke dalam wrapper, KECUALI musik & script
+        const nodesToMove = [];
+        Array.from(document.body.childNodes).forEach(node => {
+            if (node.nodeName === 'SCRIPT' || node.nodeName === 'STYLE') return;
+            if (node.nodeType === 1 && (node.id === 'bg-music' || node.id === 'music-btn')) return;
+            nodesToMove.push(node);
+        });
+        nodesToMove.forEach(node => appContent.appendChild(node));
+        document.body.prepend(appContent);
+    }
 
     // ==========================================
     // 1. GLOBAL MUSIC PLAYER
@@ -42,39 +61,46 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // B. LOVE GATE (Index Page Preloader)
         const loveGate = document.getElementById('love-gate');
+        const mainContent = document.getElementById('main-content');
+        
         if (loveGate) {
-            const barFill = document.getElementById('bar-fill');
-            const percentage = document.getElementById('percentage');
-            const mainContent = document.getElementById('main-content');
-            let progress = 0;
-            let isUnlocked = false;
+            // FITUR BARU: Cek jika "Love Gate" sudah dilewati di sesi ini
+            if (sessionStorage.getItem('gateUnlocked') === 'true') {
+                loveGate.style.display = 'none';
+                if (mainContent) mainContent.style.opacity = '1';
+            } else {
+                const barFill = document.getElementById('bar-fill');
+                const percentage = document.getElementById('percentage');
+                let progress = 0;
+                let isUnlocked = false;
 
-            loveGate.addEventListener('click', () => {
-                if (isUnlocked) return;
-                progress += 15;
-                if (progress > 100) progress = 100;
-                barFill.style.width = `${progress}%`;
-                percentage.textContent = `${progress}%`;
+                loveGate.addEventListener('click', () => {
+                    if (isUnlocked) return;
+                    progress += 15;
+                    if (progress > 100) progress = 100;
+                    barFill.style.width = `${progress}%`;
+                    percentage.textContent = `${progress}%`;
 
-                if (progress === 100) {
-                    isUnlocked = true;
-                    setTimeout(() => {
-                        loveGate.style.opacity = '0';
+                    if (progress === 100) {
+                        isUnlocked = true;
+                        sessionStorage.setItem('gateUnlocked', 'true'); // Simpan memori
                         setTimeout(() => {
-                            loveGate.style.display = 'none';
-                            mainContent.style.opacity = '1';
-                            if(audio && audio.paused) {
-                                audio.play().then(() => {
-                                    if(musicBars) musicBars.classList.add('playing');
-                                    if(musicText) musicText.textContent = "PAUSE";
-                                }).catch(e => console.log("Audio prevented:", e));
-                            }
-                        }, 1000);
-                    }, 500);
-                }
-            });
+                            loveGate.style.opacity = '0';
+                            setTimeout(() => {
+                                loveGate.style.display = 'none';
+                                if (mainContent) mainContent.style.opacity = '1';
+                                if(audio && audio.paused) {
+                                    audio.play().then(() => {
+                                        if(musicBars) musicBars.classList.add('playing');
+                                        if(musicText) musicText.textContent = "PAUSE";
+                                    }).catch(e => console.log("Audio prevented:", e));
+                                }
+                            }, 1000);
+                        }, 500);
+                    }
+                });
+            }
         } else {
-            const mainContent = document.getElementById('main-content');
             if (mainContent) mainContent.style.opacity = '1';
         }
 
@@ -206,9 +232,15 @@ document.addEventListener("DOMContentLoaded", () => {
     // 3. SEAMLESS SPA ROUTER
     // ==========================================
     const performRouting = async (url) => {
-        document.body.style.opacity = '0';
+        const container = document.getElementById('app-content');
+        if(!container) return;
+        
+        container.style.opacity = '0';
+        
         try {
             const response = await fetch(url);
+            if (!response.ok) throw new Error("Network error");
+            
             const html = await response.text();
             const parser = new DOMParser();
             const doc = parser.parseFromString(html, 'text/html');
@@ -217,41 +249,47 @@ document.addEventListener("DOMContentLoaded", () => {
                 document.title = doc.title;
                 document.body.className = doc.body.className;
                 
-                const audioEl = document.getElementById("bg-music");
-                const btnEl = document.getElementById("music-btn");
-                const keepElements = [audioEl, btnEl].filter(Boolean);
+                container.innerHTML = ''; // Kosongkan DOM (Aman untuk musik)
                 
-                Array.from(document.body.childNodes).forEach(node => {
-                    if (!keepElements.includes(node) && node.nodeName !== 'SCRIPT') node.remove();
-                });
-
                 Array.from(doc.body.childNodes).forEach(node => {
-                    if (node.id !== "bg-music" && node.id !== "music-btn" && node.nodeName !== 'SCRIPT') {
-                        document.body.appendChild(node);
-                    }
+                    if (node.nodeName === 'SCRIPT' || node.nodeName === 'STYLE') return;
+                    if (node.nodeType === 1 && (node.id === 'bg-music' || node.id === 'music-btn')) return;
+                    container.appendChild(node);
                 });
 
                 history.pushState(null, "", url);
                 window.scrollTo({ top: 0, behavior: "smooth" });
                 
                 initPageLogic();
-                document.body.style.opacity = '1';
+                container.style.opacity = '1';
             }, 400);
         } catch (err) {
+            // DEBUGGING: Jika fetch gagal dan jatuh ke mode Full Reload, kamu akan diberitahu!
+            console.error("Router failed, falling back to reload:", err);
+            alert("Sistem Router gagal beroperasi (Biasanya karena dibuka tanpa Live Server). Melakukan reload standar...");
             window.location.href = url;
         }
     };
 
+    // PENCEGATAN LINK SUPER KETAT
     document.body.addEventListener('click', (e) => {
         const link = e.target.closest('a');
-        if (link && link.getAttribute('href') && link.getAttribute('href').endsWith('.html')) {
-            // Ignore blank targets and external links (like Spotify)
-            if (link.getAttribute('target') === '_blank' || link.href.startsWith('http')) return;
-            e.preventDefault();
-            performRouting(link.getAttribute('href'));
+        if (!link) return;
+        
+        // Abaikan link Spotify atau link external lainnya
+        if (link.getAttribute('target') === '_blank' || !link.href.startsWith(window.location.origin)) return;
+        
+        // PENCEGAH RELOAD HALAMAN!
+        if (link.href.endsWith('.html') || link.pathname === '/') {
+            e.preventDefault(); 
+            performRouting(link.href);
         }
     });
 
     window.addEventListener('popstate', () => performRouting(window.location.href));
-    setTimeout(() => document.body.style.opacity = '1', 100);
+    
+    setTimeout(() => {
+        const appContent = document.getElementById('app-content');
+        if (appContent) appContent.style.opacity = '1';
+    }, 100);
 });
